@@ -1,19 +1,21 @@
 name: Build C Program
 
-on:
-  push:
-    branches:
-      - main
-      - c_program
-  pull_request:
+on: [push, pull_request]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: Compile C code
-        run: gcc my_project/main.c my_project/header.c -o my_program
+    - name: Compile C code
+      run: |
+        gcc my_project/header.c my_project/main.c -o my_program
+
+    - name: Upload compiled binary
+      uses: actions/upload-artifact@v3
+      with:
+        name: compiled-program
+        path: ./my_program

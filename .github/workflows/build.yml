@@ -46,6 +46,15 @@ jobs:
           exit 1
         fi
 
+    - name: Check if compiled binary exists
+      run: |
+        if [ ! -f my_project/c_program ]; then
+          echo "Compiled binary does not exist!"
+          exit 1
+        else
+          echo "Compiled binary exists: my_project/c_program"
+        fi
+
     - name: Upload compiled binary
       uses: actions/upload-artifact@v3
       with:

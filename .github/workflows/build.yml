@@ -19,13 +19,28 @@ jobs:
     - name: List directory contents for debugging
       run: ls -R  # This will list the directory structure for debugging
 
+    - name: Check if C source files exist
+      run: |
+        if [ ! -f my_project/header.c ]; then
+          echo "header.c does not exist!"
+          exit 1
+        fi
+        if [ ! -f my_project/main.c ]; then
+          echo "main.c does not exist!"
+          exit 1
+        fi
+
     - name: Compile C code
       run: |
-        gcc my_project/header.c my_project/main.c -o my_project/c_program  # Specify the full path for output
-      continue-on-error: false  # Ensures the workflow fails if compilation fails
+        echo "Compiling C code..."
+        gcc my_project/header.c my_project/main.c -o my_project/c_program
+        if [ $? -ne 0 ]; then
+          echo "Compilation failed"
+          exit 1
+        fi
 
     - name: Upload compiled binary
       uses: actions/upload-artifact@v3
       with:
         name: compiled-program
-        path: my_project/c_program  # Use the correct path to the compiled binary
+        path: my_project/c_program  # Correct path to the compiled binary

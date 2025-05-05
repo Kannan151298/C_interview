@@ -19,7 +19,7 @@ jobs:
         run: gcc my_project/main.c my_project/header.c -o my_program
 
       - name: Upload binary
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3.1.3
         with:
           name: compiled-program
           path: my_program

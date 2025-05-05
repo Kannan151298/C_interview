@@ -1,6 +1,12 @@
 name: Build C Program
 
-on: [push, pull_request]
+on: 
+  push:
+    branches:
+      - c_program  # Trigger only when pushing to the 'c_program' branch
+  pull_request:
+    branches:
+      - c_program  # Trigger on PRs to the 'c_program' branch
 
 jobs:
   build:
@@ -15,11 +21,11 @@ jobs:
 
     - name: Compile C code
       run: |
-        gcc my_project/header.c my_project/main.c -o c_program
+        gcc my_project/header.c my_project/main.c -o my_project/c_program  # Specify the full path for output
       continue-on-error: false  # Ensures the workflow fails if compilation fails
 
     - name: Upload compiled binary
       uses: actions/upload-artifact@v3
       with:
         name: compiled-program
-        path: ./c_program
+        path: my_project/c_program  # Use the correct path to the compiled binary

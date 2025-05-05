@@ -21,6 +21,7 @@ jobs:
 
     - name: Check if C source files exist
       run: |
+        echo "Checking for C files..."
         if [ ! -f my_project/header.c ]; then
           echo "header.c does not exist!"
           exit 1
@@ -30,10 +31,16 @@ jobs:
           exit 1
         fi
 
+    - name: Show C source code for debugging
+      run: |
+        echo "Displaying the contents of header.c and main.c:"
+        cat my_project/header.c
+        cat my_project/main.c
+
     - name: Compile C code
       run: |
         echo "Compiling C code..."
-        gcc my_project/header.c my_project/main.c -o my_project/c_program
+        gcc -v my_project/header.c my_project/main.c -o my_project/c_program  # Add -v for verbose output
         if [ $? -ne 0 ]; then
           echo "Compilation failed"
           exit 1

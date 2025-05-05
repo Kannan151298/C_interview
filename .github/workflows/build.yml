@@ -15,11 +15,11 @@ jobs:
 
     - name: Compile C code
       run: |
-        gcc my_project/header.c my_project/main.c -o my_program
+        gcc c_project/header.c c_project/main.c -o c_program
       continue-on-error: false  # Ensures the workflow fails if compilation fails
 
     - name: Upload compiled binary
       uses: actions/upload-artifact@v3
       with:
         name: compiled-program
-        path: ./my_program
+        path: ./c_program

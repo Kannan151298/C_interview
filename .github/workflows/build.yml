@@ -40,7 +40,7 @@ jobs:
     - name: Compile C code
       run: |
         echo "Compiling C code..."
-        gcc -v my_project/header.c my_project/main.c -o /home/runner/work/$(basename $GITHUB_REPOSITORY)/c_program  # Absolute path to output
+        gcc -v my_project/header.c my_project/main.c -o $GITHUB_WORKSPACE/my_project/c_program  # Use $GITHUB_WORKSPACE for the output path
         if [ $? -ne 0 ]; then
           echo "Compilation failed"
           exit 1
@@ -48,15 +48,15 @@ jobs:
 
     - name: Check if compiled binary exists
       run: |
-        if [ ! -f /home/runner/work/$(basename $GITHUB_REPOSITORY)/c_program ]; then
+        if [ ! -f $GITHUB_WORKSPACE/my_project/c_program ]; then
           echo "Compiled binary does not exist!"
           exit 1
         else
-          echo "Compiled binary exists: /home/runner/work/$(basename $GITHUB_REPOSITORY)/c_program"
+          echo "Compiled binary exists: $GITHUB_WORKSPACE/my_project/c_program"
         fi
 
     - name: Upload compiled binary
       uses: actions/upload-artifact@v3
       with:
         name: compiled-program
-        path: /home/runner/work/$(basename $GITHUB_REPOSITORY)/c_program  # Absolute path to compiled binary
+        path: $GITHUB_WORKSPACE/my_project/c_program  # Use $GITHUB_WORKSPACE for the path
